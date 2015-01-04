@@ -46,7 +46,10 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\scripts\createobject.cs" />
      <Compile Include="Assets\scripts\deplacement.cs" />
+     <Compile Include="Assets\scripts\input.cs" />
+     <Compile Include="Assets\scripts\menu.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Users/asus/Desktop/logiciels/Editor/Data/UnityExtensions/Unity/GUISystem/4.6.0/UnityEngine.UI.dll</HintPath>
  </Reference>
