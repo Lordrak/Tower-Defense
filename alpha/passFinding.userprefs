@@ -1,0 +1,17 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workspace />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\scripts\Menu.cs">
+    <Files>
+      <File FileName="Assets\scripts\input.cs" Line="30" Column="2" />
+      <File FileName="Assets\scripts\WaveSpawnScript.cs" Line="125" Column="27" />
+      <File FileName="Assets\scripts\createobject.cs" Line="7" Column="22" />
+      <File FileName="..\map\Assets\scripts\createobject.cs" Line="34" Column="83" />
+      <File FileName="Assets\scripts\Menu.cs" Line="50" Column="50" />
+      <File FileName="Assets\scripts\deplacement.cs" Line="19" Column="1" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>
