@@ -1,9 +1,8 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\scripts\NewBehaviourScript.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="..\3ifunstuffwitheditor\Assets\Editor\MyFirstButton.cs">
     <Files>
-      <File FileName="Assets\scripts\Menu.cs" Line="6" Column="24" />
-      <File FileName="Assets\scripts\NewBehaviourScript.cs" Line="58" Column="1" />
+      <File FileName="..\3ifunstuffwitheditor\Assets\Editor\MyFirstButton.cs" Line="7" Column="43" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

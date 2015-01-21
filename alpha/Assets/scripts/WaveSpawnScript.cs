@@ -1,6 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 public class WaveSpawnScript : MonoBehaviour {
+
+	public string IP = "127.0.0.1";
+	public int Port = 25001;
+
 	[SerializeField]
 	GameObject _tank;
 
@@ -17,11 +21,13 @@ public class WaveSpawnScript : MonoBehaviour {
 	GameObject _distant;
 
 	int nbTourellePosable;
+	bool clientPret;
 	Ray ray;
 	RaycastHit hit;
 	int test = 0;
 	ArrayList listMort;
 	ArrayList tourelles;
+	ArrayList lesTourelles;
 	int _waveNumber;
 	int nbMob;
 	bool DejaMort ;
@@ -34,9 +40,11 @@ public class WaveSpawnScript : MonoBehaviour {
 	int _nbDistant = 0;
 	// Use this for initialization
 	void Start () {
+		clientPret = false;
 		nbTourellePosable = 5;
 		lancer = 0;
 		tourelles = new ArrayList ();
+		lesTourelles = new ArrayList ();
 		listMort = new ArrayList ();
 		foreach(Transform meleeChild in _melee.transform){
 				meleeChild.gameObject.SetActive(false);
@@ -54,6 +62,7 @@ public class WaveSpawnScript : MonoBehaviour {
 	}
 
 	IEnumerator randSpawn (){
+		clientPret = false;
 		lancer = 1;
 		nbTourellePosable = 3;
 		ArrayList _Spawnable = new ArrayList();
@@ -131,6 +140,7 @@ public class WaveSpawnScript : MonoBehaviour {
 			
 		}
 	}
+	//------------------------------------------------------------------------------------
 	public void recupereMort(string mort){
 		DejaMort = false;
 		foreach (string unMort in listMort) {
@@ -147,38 +157,77 @@ public class WaveSpawnScript : MonoBehaviour {
 			lancer = 0;
 		}
 	}
+	//------------------------------------------------------------------------------
 	void OnGUI(){
-		if (lancer == 0) {
-			GUI.Label(new Rect(200,50,100,25),"A : unité de base");
-			GUI.Label(new Rect(150,100,100,25),nbTourellePosable +" unités à poser");
-			if (Input.GetKeyDown("a") && nbTourellePosable > 0) {
+		if (Network.peerType == NetworkPeerType.Disconnected) {
+			Application.LoadLevel ("MenuNetworking");
+		} 
+		else {
+			if (lancer == 0) {
 				
-				dejaSpawn = false;
-				foreach(int tourelle in tourelles){
-					if(tourelle == test){
-						dejaSpawn = true;
-
+				GUI.Label(new Rect(200,50,100,25),"A : unité de base");
+				GUI.Label(new Rect(150,100,100,25),nbTourellePosable +" unités à poser");
+				if (Input.GetKeyDown("a") && nbTourellePosable > 0) {
+					
+					dejaSpawn = false;
+					foreach(int tourelle in tourelles){
+						if(tourelle == test){
+							dejaSpawn = true;
+							
+						}
 					}
+					if(!dejaSpawn){
+						tourelles.Add(test);
+						StartCoroutine(createcube());
+						nbTourellePosable --;
+					}
+					
+					
 				}
-				if(!dejaSpawn){
-					tourelles.Add(test);
-					StartCoroutine(createcube());
-					nbTourellePosable --;
+				if(Input.GetKeyUp("a")){
+					test++;
 				}
 
 
 			}
-			if(Input.GetKeyUp("a")){
-				test++;
+			if (Network.peerType == NetworkPeerType.Client) {
+				if(!clientPret && lancer == 0){
+				if (GUI.Button (new Rect (50, 50, 100, 25), "Pret")) {
+					networkView.RPC ("clientPretRPC", RPCMode.All);
+				}
 			}
-			if (GUI.Button (new Rect (50, 50, 100, 25), "Pret")) {
-				listMort = new ArrayList ();
-				StartCoroutine (randSpawn());
+			}
+			else{
+				if(clientPret && lancer == 0){
+					if (GUI.Button (new Rect (50, 50, 100, 25), "Pret")) {
+						listMort = new ArrayList ();
+						networkView.RPC ("lancerGame", RPCMode.All);
+						}
+				}
+				GUI.Label (new Rect (100, 100, 100, 25), "Server");
+				}
+			if (GUI.Button (new Rect (100, 125, 100, 25), "Logout")) {
+				Network.Disconnect (250);
 			}
 		}
 
+
 	}
 
+	//---------------------------------------------------------------
+	[RPC]
+	void clientPretRPC(){
+		Pret ();
+	}
+
+	[RPC]
+	void lancerGame(){
+		StartCoroutine (randSpawn());
+	}
+
+	void Pret(){
+		clientPret = true;
+	}
 	public class TankStats{
 		public int HP =  20;
 		public int damage = 2;
@@ -197,14 +246,23 @@ public class WaveSpawnScript : MonoBehaviour {
 		public int resist = 1;
 		public static int waveValue =2;
 	}
+	
 	IEnumerator createcube()
 	{
 		ray=Camera.main.ScreenPointToRay(Input.mousePosition);
 		if(Physics.Raycast(ray,out hit))
 		{
-			Vector3 vec = new Vector3(hit.point.x + 2, plan.position.y + testobject.localScale.y / 2, hit.point.z);
+			if(hit.collider.gameObject.name =="Map"){
+				Vector3 vec = new Vector3(hit.point.x + 2, plan.position.y + testobject.localScale.y / 2, hit.point.z);
 
-			Instantiate (testobject, vec, Quaternion.identity);
+				Transform tourelle = Instantiate (testobject, vec, Quaternion.identity) as Transform;
+				GameObject t = tourelle.gameObject;
+				lesTourelles.Add(t);
+
+			}
+			else{
+				nbTourellePosable ++;
+			}
 		}
 		yield return new WaitForSeconds (2f);
 	}

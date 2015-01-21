@@ -8,6 +8,8 @@ public class NewBehaviourScript : MonoBehaviour {
 	[SerializeField]
 	GameObject _map;
 
+	string nom;
+
 	List<GameObject> _objectsInside;
 	float timeLeft = 0.5f;
 
@@ -62,6 +64,9 @@ public class NewBehaviourScript : MonoBehaviour {
 		}
 
 
+	}
+	void setNom(int nb){
+		nom = nom + nb;
 	}
 
 

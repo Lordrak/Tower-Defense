@@ -50,7 +50,9 @@
      <Compile Include="Assets\scripts\AfficheVieIdole.cs" />
      <Compile Include="Assets\scripts\CameraControl.cs" />
      <Compile Include="Assets\scripts\Menu.cs" />
+     <Compile Include="Assets\scripts\MouseButtonClick.cs" />
      <Compile Include="Assets\scripts\NewBehaviourScript.cs" />
+     <Compile Include="Assets\scripts\Unité.cs" />
      <Compile Include="Assets\scripts\Wave.cs" />
      <Compile Include="Assets\scripts\WaveSpawnScript.cs" />
      <Compile Include="Assets\scripts\createobject.cs" />

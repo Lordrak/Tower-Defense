@@ -12,7 +12,17 @@ Platform assembly: C:\Users\Lordrak\Documents\alpha\Client_Data\Managed\Assembly
 Loading C:\Users\Lordrak\Documents\alpha\Client_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
 Platform assembly: C:\Users\Lordrak\Documents\alpha\Client_Data\Managed\UnityEngine.UI.dll (this message is harmless)
 Loading C:\Users\Lordrak\Documents\alpha\Client_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
-- Completed reload, in  0.047 seconds
+- Completed reload, in  0.049 seconds
 desktop: 1366x768 40Hz; virtual: 1366x768 at 0,0
 <RI> Initializing input.
 <RI> Input initialized.
+Level 'terrain' (1) couldn't be loaded because it has not been added to the build settings.
+To add a level to the build settings use the menu File->Build Settings...
+ 
+(Filename:  Line: 271)
+
+Level 'terrain' (1) couldn't be loaded because it has not been added to the build settings.
+To add a level to the build settings use the menu File->Build Settings...
+ 
+(Filename:  Line: 271)
+
