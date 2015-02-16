@@ -1,8 +1,13 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace />
-  <MonoDevelop.Ide.Workbench ActiveDocument="..\3ifunstuffwitheditor\Assets\Editor\MyFirstButton.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\scripts\WaveSpawnScript.cs">
     <Files>
-      <File FileName="..\3ifunstuffwitheditor\Assets\Editor\MyFirstButton.cs" Line="7" Column="43" />
+      <File FileName="Assets\scripts\Menu.cs" Line="1" Column="1" />
+      <File FileName="Assets\scripts\WaveSpawnScript.cs" Line="206" Column="22" />
+      <File FileName="Assets\scripts\Unité.cs" Line="7" Column="20" />
+      <File FileName="Assets\scripts\scriptIdole.cs" Line="1" Column="1" />
+      <File FileName="Assets\scripts\Adversaire.cs" Line="1" Column="1" />
+      <File FileName="Assets\scripts\NewBehaviourScript.cs" Line="81" Column="24" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

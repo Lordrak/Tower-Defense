@@ -9,6 +9,9 @@ public class WaveSpawnScript : MonoBehaviour {
 	GameObject _tank;
 
 	[SerializeField]
+	Camera camAmelio;
+
+	[SerializeField]
 	Transform testobject;
 
 	[SerializeField]
@@ -20,9 +23,11 @@ public class WaveSpawnScript : MonoBehaviour {
 	[SerializeField]
 	GameObject _distant;
 
+	bool amelio = false;
 	int nbTourellePosable;
 	bool clientPret;
 	Ray ray;
+	GameObject goAmelio;
 	RaycastHit hit;
 	int test = 0;
 	ArrayList listMort;
@@ -187,7 +192,25 @@ public class WaveSpawnScript : MonoBehaviour {
 				if(Input.GetKeyUp("a")){
 					test++;
 				}
+				ray=Camera.main.ScreenPointToRay(Input.mousePosition);
+				if(Physics.Raycast(ray,out hit))
+				{
+					if(Input.GetMouseButton(0) && hit.collider.gameObject.name == "Unite(Clone)"){
+						amelio = true;
+						goAmelio = hit.collider.gameObject;
+					}
+				}
+				if(amelio){
+					if(GUI.Button (new Rect (50, 50, 100, 25), "UP Att")){
+						goAmelio.GetComponent<NewBehaviourScript>().setDegat(3);
+						amelio = false;
 
+					}
+					else if(GUI.Button (new Rect (100, 50, 100, 25), "UP Speed")){
+						goAmelio.GetComponent<NewBehaviourScript>().setVitesseAtt(1.2f);
+						amelio = false;
+					}
+				}
 
 			}
 			if (Network.peerType == NetworkPeerType.Client) {

@@ -10,6 +10,8 @@ public class NewBehaviourScript : MonoBehaviour {
 
 	string nom;
 
+	int degat = 1;
+
 	List<GameObject> _objectsInside;
 	float timeLeft = 0.5f;
 
@@ -35,7 +37,7 @@ public class NewBehaviourScript : MonoBehaviour {
 
 	IEnumerator ShootCoroutine(){
 		while (_objectsInside.Count> 0) {
-			_objectsInside[0].GetComponent<Adversaire> ().setVie (1);
+			_objectsInside[0].GetComponent<Adversaire> ().setVie (degat);
 			yield return new WaitForSeconds(100f);
 		}
 
@@ -69,6 +71,16 @@ public class NewBehaviourScript : MonoBehaviour {
 		nom = nom + nb;
 	}
 
+	public void setDegat(int deg){
+		Debug.Log(""+degat);
+		degat += deg;
+
+	}
+
+	public void setVitesseAtt(float vit){
+		Debug.Log(""+timeLeft);
+		timeLeft /= vit; 
+	}
 
 }
 

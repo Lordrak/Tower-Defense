@@ -14,8 +14,8 @@ public class deplacement : MonoBehaviour {
 	Transform _destination;
 
 	// Use this for initialization
-	void Start () {
-		_agent.SetDestination(_destination.position);
+	void OnEnable () {
+			_agent.SetDestination (_destination.position);
 	}
 
 	
