@@ -35,6 +35,7 @@ public class WaveSpawnScript : MonoBehaviour {
 	ArrayList lesTourelles;
 	int _waveNumber;
 	int nbMob;
+	int or;
 	bool DejaMort ;
 	bool dejaSpawn;
 	int _waveValue;
@@ -45,6 +46,7 @@ public class WaveSpawnScript : MonoBehaviour {
 	int _nbDistant = 0;
 	// Use this for initialization
 	void Start () {
+		or = 500;
 		clientPret = false;
 		nbTourellePosable = 5;
 		lancer = 0;
@@ -146,6 +148,26 @@ public class WaveSpawnScript : MonoBehaviour {
 		}
 	}
 	//------------------------------------------------------------------------------------
+	public void recupereMort(string mort, GameObject GOmort){
+		DejaMort = false;
+		foreach (string unMort in listMort) {
+			if(mort == unMort){
+				DejaMort = true;
+			}
+		}
+		if (!DejaMort) {
+			if(GOmort.tag == "Adversaire"){
+				or += 5;
+			}
+			listMort.Add(mort);
+
+		}
+		Debug.Log (listMort.Count+"  "+nbMob);
+		if (listMort.Count == nbMob) {
+			lancer = 0;
+		}
+	}
+
 	public void recupereMort(string mort){
 		DejaMort = false;
 		foreach (string unMort in listMort) {
@@ -155,7 +177,7 @@ public class WaveSpawnScript : MonoBehaviour {
 		}
 		if (!DejaMort) {
 			listMort.Add(mort);
-
+			
 		}
 		Debug.Log (listMort.Count+"  "+nbMob);
 		if (listMort.Count == nbMob) {
@@ -164,6 +186,8 @@ public class WaveSpawnScript : MonoBehaviour {
 	}
 	//------------------------------------------------------------------------------
 	void OnGUI(){
+		GUI.Label(new Rect(300,150,100,25),"Or : "+or);
+
 		if (Network.peerType == NetworkPeerType.Disconnected) {
 			Application.LoadLevel ("MenuNetworking");
 		} 
@@ -182,6 +206,7 @@ public class WaveSpawnScript : MonoBehaviour {
 						}
 					}
 					if(!dejaSpawn){
+
 						tourelles.Add(test);
 						StartCoroutine(createcube());
 						nbTourellePosable --;
@@ -201,12 +226,13 @@ public class WaveSpawnScript : MonoBehaviour {
 					}
 				}
 				if(amelio){
-					if(GUI.Button (new Rect (50, 50, 100, 25), "UP Att")){
+					if(GUI.Button (new Rect (50, 10, 100, 25), "UP Att")){
+//						if(or - goAmelio.GetComponent<NewBehaviourScript>().getOr())
 						goAmelio.GetComponent<NewBehaviourScript>().setDegat(3);
 						amelio = false;
 
 					}
-					else if(GUI.Button (new Rect (100, 50, 100, 25), "UP Speed")){
+					else if(GUI.Button (new Rect (150, 10, 100, 25), "UP Speed")){
 						goAmelio.GetComponent<NewBehaviourScript>().setVitesseAtt(1.2f);
 						amelio = false;
 					}
@@ -275,12 +301,13 @@ public class WaveSpawnScript : MonoBehaviour {
 		ray=Camera.main.ScreenPointToRay(Input.mousePosition);
 		if(Physics.Raycast(ray,out hit))
 		{
-			if(hit.collider.gameObject.name =="Map"){
+			if(hit.collider.gameObject.name =="Map" && or - testobject.GetComponent<NewBehaviourScript>().getOr() >= 0){
 				Vector3 vec = new Vector3(hit.point.x + 2, plan.position.y + testobject.localScale.y / 2, hit.point.z);
 
 				Transform tourelle = Instantiate (testobject, vec, Quaternion.identity) as Transform;
 				GameObject t = tourelle.gameObject;
 				lesTourelles.Add(t);
+				or-= t.GetComponent<NewBehaviourScript>().getOr();
 
 			}
 			else{

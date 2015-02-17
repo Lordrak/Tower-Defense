@@ -50,6 +50,7 @@
      <Compile Include="Assets\scripts\AfficheVieIdole.cs" />
      <Compile Include="Assets\scripts\CameraControl.cs" />
      <Compile Include="Assets\scripts\EntityAndPowerManagerScript.cs" />
+     <Compile Include="Assets\scripts\InterfaceInGame.cs" />
      <Compile Include="Assets\scripts\Menu.cs" />
      <Compile Include="Assets\scripts\MouseButtonClick.cs" />
      <Compile Include="Assets\scripts\NewBehaviourScript.cs" />

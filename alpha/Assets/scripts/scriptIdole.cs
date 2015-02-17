@@ -44,5 +44,11 @@ public class scriptIdole : MonoBehaviour {
 		GUI.Label(new Rect(300,100,100,25),"point de vie : "+_vie);
 	}
 
+	public int getVie()
+	{
+		return _vie;
+	}
+	
+
 
 }

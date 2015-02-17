@@ -9,6 +9,9 @@ public class NewBehaviourScript : MonoBehaviour {
 	GameObject _map;
 
 	string nom;
+	[SerializeField]
+	int or;
+	int nbAmelio;
 
 	int degat = 1;
 
@@ -18,7 +21,7 @@ public class NewBehaviourScript : MonoBehaviour {
 	// Use this for initialization
 	void Start ()
 	{
-
+// 		nbAmelio;
 		_objectsInside = new List<GameObject> ();
 
 	}
@@ -59,7 +62,7 @@ public class NewBehaviourScript : MonoBehaviour {
 	void OnTriggerStay(Collider other){
 		if (other.gameObject.tag == "Adversaire") {
 			if (other.gameObject.GetComponent<Adversaire> ().getVie () <= 0) {
-				_map.GetComponent<WaveSpawnScript>().recupereMort(other.GetComponent<Adversaire>().getNom());
+				_map.GetComponent<WaveSpawnScript>().recupereMort(other.GetComponent<Adversaire>().getNom(),other.gameObject);
 				_objectsInside.Remove (other.gameObject);
 				Destroy(other.gameObject);
 			}
@@ -81,6 +84,18 @@ public class NewBehaviourScript : MonoBehaviour {
 		Debug.Log(""+timeLeft);
 		timeLeft /= vit; 
 	}
+
+	public int getOr()
+	{
+		return or;
+	}
+
+	public void setOr(){
+		or += or * nbAmelio;
+	}
+
+<
+	
 
 }
 
