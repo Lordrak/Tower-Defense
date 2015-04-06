@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 public class Wave : MonoBehaviour {
 	
 	[SerializeField]
@@ -19,11 +20,15 @@ public class Wave : MonoBehaviour {
 	
 	[SerializeField]
 	GameObject _distant;
-
+	
+	[SerializeField]
+	Transform FireAoe;
+	
 
 
 	
 	bool amelio = false;
+	bool amelioAOE = false;
 	int nbTourellePosable;
 	bool clientPret;
 	Ray ray;
@@ -68,6 +73,7 @@ public class Wave : MonoBehaviour {
 		
 		
 	}
+
 	
 	IEnumerator randSpawn (){
 		clientPret = false;
@@ -109,6 +115,7 @@ public class Wave : MonoBehaviour {
 		_waveNumber++;
 		_baseWaveValue += 2 * _waveNumber;
 	}
+
 	//------------------------------------------------------------------------------------
 	public void recupereMort(string mort, GameObject GOmort){
 		DejaMort = false;
@@ -147,63 +154,103 @@ public class Wave : MonoBehaviour {
 	}
 	//------------------------------------------------------------------------------
 	void OnGUI(){
-				GUI.Label (new Rect (300, 150, 100, 25), "Or : " + or);
-				if (lancer == 0) {
-						GUI.Label (new Rect (200, 50, 100, 25), "A : unité de base");
-						GUI.Label (new Rect (150, 100, 100, 25), nbTourellePosable + " unités à poser");
-						if (Input.GetKeyDown ("a") && nbTourellePosable > 0) {
+		if (lancer == 0) {
+			Text[] guiText = camAmelio.GetComponentsInChildren<Text> ();
+			guiText [0].text = "Ressources: " + nbTourellePosable;
+			guiText [1].text = "Or: " + or;
+			if (Input.GetKeyDown ("a") && nbTourellePosable > 0) {
 								
-								dejaSpawn = false;
-								foreach (int tourelle in tourelles) {
+				dejaSpawn = false;
+				foreach (int tourelle in tourelles) {
 											
-										if (tourelle == test) {
-												dejaSpawn = true;
+					if (tourelle == test) {
+						dejaSpawn = true;
 												
-										}
-								}
-								Debug.Log (dejaSpawn);
-								if (!dejaSpawn) {
+					}
+				}
+				Debug.Log (dejaSpawn);
+				if (!dejaSpawn) {
 						
-										tourelles.Add (test);
-										StartCoroutine (createcube ());
-										nbTourellePosable --;
-								}
-						}
-						if (Input.GetKeyUp ("a")) {
-								test++;
-						}
-						ray = Camera.main.ScreenPointToRay (Input.mousePosition);
-						if (Physics.Raycast (ray, out hit)) {
-								if (Input.GetMouseButton (0) && hit.collider.gameObject.name == "Unite(Clone)") {
-										amelio = true;
-										goAmelio = hit.collider.gameObject;
-								}
-						}
-						if (amelio) {
-				Debug.Log(or+" - "+goAmelio.GetComponent<NewBehaviourScript> ().getOr ());
-								if (or - goAmelio.GetComponent<NewBehaviourScript> ().getOr () >= 0) {
-										if (GUI.Button (new Rect (50, 10, 100, 25), "UP Att")) {
-												or -= goAmelio.GetComponent<NewBehaviourScript> ().getOr ();
-												goAmelio.GetComponent<NewBehaviourScript> ().setDegat (3);
-												amelio = false;
-										} else if (GUI.Button (new Rect (150, 10, 100, 25), "UP Speed")) {
-												or -= goAmelio.GetComponent<NewBehaviourScript> ().getOr ();
-												goAmelio.GetComponent<NewBehaviourScript> ().setVitesseAtt (1.2f);;
-												amelio = false;
-										}
-								} else {
-										GUI.Label (new Rect (150, 10, 100, 25), "Or insuffisant");
-								}
-						}
-			if (GUI.Button (new Rect (50, 50, 100, 25), "Pret")) {
-				listMort = new ArrayList ();
-				StartCoroutine (randSpawn());
-				
+					tourelles.Add (test);
+					StartCoroutine (createcube ());
+					nbTourellePosable --;
+				}
 			}
-		}
+						
+			if (Input.GetKeyUp ("a")) {
+				test++;
+			}
+			if (Input.GetKeyDown ("z") && nbTourellePosable > 0) {
+				
+				dejaSpawn = false;
+				foreach (int tourelle in tourelles) {
+					if (tourelle == test) {
+						dejaSpawn = true;
+						
+					}
+				}
+			
+				if (!dejaSpawn) {
+					tourelles.Add (test);
+					StartCoroutine (createFlamethrower ());
+					nbTourellePosable --;
+				}
+			}
+			if (Input.GetKeyUp ("z")) {
+				test++;
+			}
+			ray = Camera.main.ScreenPointToRay (Input.mousePosition);
+			if (Physics.Raycast (ray, out hit)) {
+					if (Input.GetMouseButton (0) && (hit.collider.gameObject.name == "Unite(Clone)" ) ) {
+						amelio = true;
+						goAmelio = hit.collider.gameObject;
+					}else if( Input.GetMouseButton (0) && hit.collider.gameObject.name == "UniteAOE(Clone)"){
+						amelioAOE = true;
+						goAmelio = hit.collider.gameObject;
+					}
+				}
+				if (amelio) {
+					Debug.Log (or + " - " + goAmelio.GetComponent<NewBehaviourScript> ().getOr ());
+					if (or - goAmelio.GetComponent<NewBehaviourScript> ().getOr () >= 0) {
+						if (GUI.Button (new Rect (50, 10, 100, 25), "UP Att")) {
+							or -= goAmelio.GetComponent<NewBehaviourScript> ().getOr ();
+							goAmelio.GetComponent<NewBehaviourScript> ().setDegat (3);
+							amelio = false;
+						} else if (GUI.Button (new Rect (150, 10, 100, 25), "UP Speed")) {
+							or -= goAmelio.GetComponent<NewBehaviourScript> ().getOr ();
+							goAmelio.GetComponent<NewBehaviourScript> ().setVitesseAtt (1.2f);
+							;
+							amelio = false;
+						}
+					} else {
+						GUI.Label (new Rect (150, 10, 100, 25), "Or insuffisant");
+					}
+				}
+				if(amelioAOE){
+					if (or - goAmelio.GetComponent<DealAOEDmgScript> ().getOr () >= 0) {
+						if (GUI.Button (new Rect (50, 10, 100, 25), "UP Att")) {
+							or -= goAmelio.GetComponent<DealAOEDmgScript> ().getOr ();
+							goAmelio.GetComponent<DealAOEDmgScript> ().setDegat (3);
+							amelioAOE = false;
+						} else if (GUI.Button (new Rect (150, 10, 100, 25), "UP Speed")) {
+							or -= goAmelio.GetComponent<DealAOEDmgScript> ().getOr ();
+							goAmelio.GetComponent<DealAOEDmgScript> ().setVitesseAtt (1.2f);
+							;
+							amelioAOE = false;
+						}
+					} else {
+						GUI.Label (new Rect (150, 10, 100, 25), "Or insuffisant");
+					}
+				}
+				if (GUI.Button (new Rect (50, 50, 100, 25), "Pret")) {
+					listMort = new ArrayList ();
+					StartCoroutine (randSpawn ());
+				
+				}
+			}
 		
 		}
-		
+
 		
 	
 	//---------------------------------------------------------------
@@ -279,6 +326,25 @@ public class Wave : MonoBehaviour {
 				lesTourelles.Add(t);
 				or-= t.GetComponent<NewBehaviourScript>().getOr();
 				
+			}
+			else{
+				nbTourellePosable ++;
+			}
+		}
+		yield return new WaitForSeconds (2f);
+	}
+	IEnumerator createFlamethrower()
+	{
+		ray=Camera.main.ScreenPointToRay(Input.mousePosition);
+		if(Physics.Raycast(ray,out hit))
+		{
+			if(hit.collider.gameObject.name =="Map"&& or - testobject.GetComponent<NewBehaviourScript>().getOr() >= 0){
+				Vector3 vec = new Vector3(hit.point.x , plan.position.y, hit.point.z + testobject.localScale.z / 2);
+				
+				Transform tourelle = Instantiate (FireAoe, vec, Quaternion.identity) as Transform;
+				GameObject t = tourelle.gameObject;
+				lesTourelles.Add(t);
+				or-= t.GetComponent<DealAOEDmgScript> ().getOr();
 			}
 			else{
 				nbTourellePosable ++;

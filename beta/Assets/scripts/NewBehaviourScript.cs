@@ -62,7 +62,7 @@ public class NewBehaviourScript : MonoBehaviour {
 	void OnTriggerStay(Collider other){
 		if (other.gameObject.tag == "Adversaire") {
 			if (other.gameObject.GetComponent<Adversaire> ().getVie () <= 0) {
-				_map.GetComponent<WaveSpawnScript>().recupereMort(other.GetComponent<Adversaire>().getNom(),other.gameObject);
+				_map.GetComponent<Wave>().recupereMort(other.GetComponent<Adversaire>().getNom(), other.gameObject);
 				_objectsInside.Remove (other.gameObject);
 				Destroy(other.gameObject);
 			}

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-
+using UnityEngine.UI;
 public class scriptIdole : MonoBehaviour {
 
 	[SerializeField]
@@ -12,6 +12,9 @@ public class scriptIdole : MonoBehaviour {
 
 	[SerializeField]
 	Vector3 vec;
+
+	[SerializeField]
+	Camera camHUD;
 
 	// Use this for initialization
 	void Start () {
@@ -41,7 +44,8 @@ public class scriptIdole : MonoBehaviour {
 
 	void OnGUI()
 	{
-		GUI.Label(new Rect(vec.x,vec.y,vec.z,25),"point de vie : "+_vie);
+		Text[] guiText = camHUD.GetComponentsInChildren<Text> ();
+		guiText [2].text = "HP: "+_vie;
 	}
 
 	public int getVie()
